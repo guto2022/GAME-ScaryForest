@@ -1,7 +1,7 @@
 # 🌲 GAME-ScaryForest
 
 <p align="center">
-  <img src="background.jpg" alt="demonstração do Scary Forest" width="600">
+  <img src="assets/background.jpg" alt="demonstração do Scary Forest" width="600">
 </p>
 
 > **Status:** 🚧 Em construção
