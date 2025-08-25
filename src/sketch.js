@@ -24,6 +24,8 @@ function preload(){
   P1_shot = loadAnimation("assets/1+.png","assets/2+fogo1.png","assets/3+fogo2.png","assets/4+fogo3.png");
   
   gameOverImg = loadImage("assets/gameOver.png");
+
+  groundImg = loadImage("assets/ground.png")
 }
 
 function setup() {
@@ -34,20 +36,20 @@ function setup() {
   P1.addAnimation("stop", Pd);
   P1.addAnimation("running", P1_running);
   P1.addAnimation("death", P1_death);
-  P1.setCollider('circle',0,0,350);
+  P1.setCollider('rectangle',-5 ,-3 , 30, 65);
+  //P1.debug = true;
   P1.scale = 1.5
   
-  invisibleGround = createSprite(683,height-10,width,10);  
-  invisibleGround.shapeColor = "#f4cbaa";
+  invisibleGround = createSprite(width / 2, height, width, 5);  
+  //invisibleGround.addImage(groundImg);
+  //invisibleGround.scale = width / groundImg.width;
+  invisibleGround.visible = false;
   
   gameOver = createSprite(width/2,height/2- 50);
   gameOver.addImage(gameOverImg);
-  
-  gameOver.scale = 0.5;
-
+  gameOver.scale = 0.5
   gameOver.visible = false;
   
-  invisibleGround.visible =false
   
   score = 0;
 }
@@ -58,26 +60,21 @@ function draw() {
   if (gameState===PLAY){
     
     if(keyDown("a")){
-      P1.x+=-10
+      P1.x = P1.x - 10
       P1.changeAnimation("running");
+    }else if(keyWentUp("a")){
+      P1.changeAnimation("stop");
     }
 
     if(keyDown("d")){
-      P1.x+=10
+      P1.x = P1.x + 10
       P1.changeAnimation("running");
-    }
-
-    if(keyWentUp("a")){
+    }else if(keyWentUp("d")){
       P1.changeAnimation("stop");
     }
 
-    if(keyWentUp("d")){
-      P1.changeAnimation("stop");
-    }
-
-    if((touches.length > 0 || keyDown("SPACE")) ) {
-      P1.y = P1.y -10;
-      
+    if(keyDown("space") && P1.collide(invisibleGround)) {
+      P1.velocityY = -12;
     }
     
     P1.velocityY = P1.velocityY + 0.8
@@ -86,13 +83,11 @@ function draw() {
       background.x = background.width/2;
     }
   
-    // P1.collide(invisibleGround);
+    P1.collide(invisibleGround);
     
     //defina a velocidade de cada objeto do jogo para 0
     background.velocityX = 0;
-    P1.velocityY = 0;
-    
-    
+
     //P1.changeAnimation("death",P1_death);
     
     // if(touches.length>0 || keyDown("SPACE")) {      
